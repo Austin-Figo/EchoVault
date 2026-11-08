@@ -1,0 +1,43 @@
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Dependencies
+node_modules/
+venv/
+.venv/
+
+# Java / Maven
+target/
+*.class
+
+# Frontend builds
+dist/
+build/
+
+# IDE files
+.idea/
+.vscode/
+*.iml
+
+# Operating system
+.DS_Store
+Thumbs.db
+
+# Database files
+*.mv.db
+*.trace.db
+*.lock.db
+
+# Runtime storage - do not upload user files
+/storage/*
+!/storage/.gitkeep
+
+# Logs
+*.log
+

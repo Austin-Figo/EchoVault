@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: echovault-backend-test
+
+  datasource:
+    url: jdbc:h2:mem:echovault_test;DB_CLOSE_DELAY=-1
+    driverClassName: org.h2.Driver
+    username: sa
+    password: ""
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+
+  servlet:
+    multipart:
+      max-file-size: 250MB
+      max-request-size: 250MB
+
+echovault:
+  storage:
+    base-path: target/test-storage
+  threshold:
+    required-shares: 3
+    total-shares: 5

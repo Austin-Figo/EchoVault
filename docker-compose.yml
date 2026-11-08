@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  echovault-backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: echovault-backend
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./storage:/app/storage
+      - ./backend/data:/app/data
+    environment:
+      - SPRING_PROFILES_ACTIVE=default
+    restart: unless-stopped
+
+  echovault-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: echovault-frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - echovault-backend
+    restart: unless-stopped
+
+  # Optional MySQL Database Service (toggle when running with --profile mysql)
+  echovault-mysql:
+    image: mysql:8.0
+    container_name: echovault-mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: echovault
+    volumes:
+      - mysql-data:/var/lib/mysql
+    profiles:
+      - mysql
+
+volumes:
+  mysql-data:
