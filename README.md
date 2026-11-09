@@ -8,7 +8,7 @@ EchoVault is a secure distributed storage proof-of-concept application built wit
 
 - **Authenticated Encryption:** Every file is encrypted with a distinct, randomly generated 256-bit AES key and a 96-bit GCM nonce. The 128-bit authentication tag guarantees confidentiality and tamper-evidence.
 - **True Shamir's Secret Sharing:** Implemented strictly over the Galois Field $\text{GF}(2^8)$ using the irreducible AES polynomial $x^8 + x^4 + x^3 + x + 1$ (`0x11B`) and `SecureRandom`. Never uses XOR splits or duplicate keys.
-- **Zero-Knowledge Key Storage:** The original AES-256 key is **never saved on disk or in the database**. It is wiped from memory immediately after generating the five shares.
+- **Key Material Handling:** The original AES-256 key is not intentionally persisted as a standalone database field; the implementation clears its working byte array after generating shares. The five shares are persisted by the same application database, so this is not independent or zero-knowledge custody.
 - **Threshold Recovery:** Any **3 of 5** shares can reconstruct the AES key via Lagrange interpolation. Any 2 or fewer shares convey **zero information** about the key.
 - **Tamper Detection:** AES-GCM verification (`AEADBadTagException`) detects and rejects corrupted ciphertexts or invalid key shares, ensuring corrupted plaintext is never returned.
 - **Interactive Recovery Lab:** A built-in security dashboard allows real-time simulation of node outages (e.g. 5, 3, or 2 nodes available) and share byte corruption attacks.
@@ -21,7 +21,7 @@ EchoVault is a secure distributed storage proof-of-concept application built wit
 - **Backend:** Java 21, Spring Boot 3.3.4, Spring Data JPA, Spring Web, Hibernate, H2 Database (file-based)
 - **Cryptography:** Java Cryptography Architecture (`Cipher`, `AES/GCM/NoPadding`, `SecureRandom`, `MessageDigest`), custom $\text{GF}(2^8)$ Shamir Secret Sharing engine
 - **Frontend:** React 18, Vite 5, JavaScript, Custom Responsive Dark Theme CSS
-- **Testing:** JUnit 5, Spring Boot Test, MockMvc (21 passing automated tests)
+- **Testing:** JUnit 5, Spring Boot Test, MockMvc (automated test sources are included; run the suite locally to verify the current checkout)
 
 ---
 
@@ -113,7 +113,7 @@ Open your browser at **`http://localhost:5173`**.
 
 ## Running the Automated Test Suite
 
-To run all 21 unit and integration tests (AES-GCM round-trip, tamper detection, Shamir 3-of-5 combinations, and REST controller flows):
+To run the unit and integration tests (AES-GCM round-trip, tamper detection, Shamir 3-of-5 combinations, and REST controller flows):
 
 ```powershell
 cd E:\EchoVault\backend
