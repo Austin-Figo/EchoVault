@@ -30,7 +30,7 @@ All endpoints are CORS-enabled for local development origins (`http://localhost:
 
 **Content-Type:** `multipart/form-data`
 **Parameters:**
-- `file`: Binary file upload (max 50MB)
+- `file`: Binary file upload (max 250MB (configured in application.yml))
 
 **Response `200 OK`**:
 ```json
@@ -126,7 +126,7 @@ Returns the file's metadata and array of 5 stored key shares.
 ### 6. Delete File
 `DELETE /api/files/{id}`
 
-Permanently removes the encrypted ciphertext from disk and deletes the database record and key shares.
+Requests deletion of the encrypted ciphertext from local storage and removes the database record and associated key shares. This is application-level deletion, not a guarantee of secure erasure from backups or underlying storage media.
 
 **Response `200 OK`**:
 ```json
