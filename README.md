@@ -188,3 +188,12 @@ EchoVault uses standard Spring Data JPA entities. To migrate from H2 to MySQL wh
 
 - **Simulated Node Distribution:** In this MVP, storage nodes and share repositories are simulated locally on a single machine rather than physically separated across distributed network hosts.
 - **Proof-of-Concept Status:** EchoVault is built as an educational demonstration of threshold cryptography and authenticated encryption. It is **not claimed to be production-ready**.
+
+
+## Security scope and deployment warning
+
+EchoVault is an academic proof of concept. The five named storage nodes are simulated: ciphertext is stored on the application filesystem and all Shamir shares are persisted by the same application database. They are not independent physical or cloud nodes. The REST API currently has no authentication or authorization; do not expose it to the public internet or store real confidential files. Review [SECURITY.md](SECURITY.md) before running it.
+
+### Optional MySQL profile
+
+The MySQL profile requires explicit credentials. Set `SPRING_PROFILES_ACTIVE=mysql`, `MYSQL_ROOT_PASSWORD`, and `DB_PASSWORD` in your local environment before starting the Compose stack with the `mysql` profile. Keep these values out of Git. The default profile uses local H2.
